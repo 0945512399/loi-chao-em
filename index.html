@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi em</title>
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; font-family: 'Arial', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; color: #fff; }
+        .content { z-index: 2; position: relative; padding: 20px; }
+        h1 { color: #ff4081; font-size: 1.8em; text-shadow: 0 0 15px #ff4081; line-height: 1.5; }
+        canvas { position: absolute; top: 0; left: 0; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Chào em, đây là lời chào anh làm trên điện thoại</h1>
+    </div>
+    <canvas id="heartCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const hearts = [];
+        function createHeart() {
+            hearts.push({
+                x: Math.random() * canvas.width,
+                y: canvas.height + 10,
+                size: Math.random() * 10 + 5,
+                speed: Math.random() * 2 + 0.5,
+                opacity: 1
+            });
+        }
+        function drawHearts() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hearts.forEach((h, i) => {
+                h.y -= h.speed;
+                h.opacity -= 0.003;
+                ctx.globalAlpha = h.opacity;
+                ctx.fillStyle = '#ff1744';
+                ctx.font = h.size + "px serif";
+                ctx.fillText("❤️", h.x, h.y);
+                if (h.opacity <= 0) hearts.splice(i, 1);
+            });
+            requestAnimationFrame(drawHearts);
+        }
+        setInterval(createHeart, 200);
+        drawHearts();
+    </script>
+</body>
+</html>
